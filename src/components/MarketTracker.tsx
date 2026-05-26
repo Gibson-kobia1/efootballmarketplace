@@ -11,7 +11,7 @@ export default function MarketTracker() {
     const handleSimulateTick = () => {
       const usersList = ['Kofi_eF', 'Sandro99', 'UtsavPrime', 'GamerFC', 'GiggsBooster', 'Tactician_Z'];
       const squadsNames = ['SQUAD VENOM', 'TOKYO BOOSTER', 'ROMA LEGENDS', 'SQUAD ZERO GRAVITY', 'GALACTICOS X'];
-      const valuesList = ['$65', '$120', '$220', '$350', '$145'];
+      const valuesList = ['$15', '$20', '$22', '$25', '$18'];
       const actionTypes = ['sale', 'listing', 'offer'] as const;
 
       const randomUser = usersList[Math.floor(Math.random() * usersList.length)];
@@ -37,57 +37,6 @@ export default function MarketTracker() {
 
   return (
     <div id="stats-and-trust-section" className="space-y-6">
-      
-      {/* 4. Marketplace Statistics Grid Panel */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Stat 1 */}
-        <div className="bg-slate-900/40 border border-slate-800/80 p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition-colors">
-          <div className="absolute right-2 bottom-2 font-black font-display text-4xl text-slate-800/20 group-hover:text-slate-800/30 transition-colors select-none">
-            SQD
-          </div>
-          <p className="text-[10px] font-mono tracking-widest uppercase text-slate-500 font-bold">TOTAL VETTED SQUADS</p>
-          <p className="text-3xl font-display font-black text-white mt-1">1,410</p>
-          <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-0.5 mt-1.5 font-bold">
-            ⚡ +18 active today
-          </span>
-        </div>
-
-        {/* Stat 2 */}
-        <div className="bg-slate-900/40 border border-slate-800/80 p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition-colors">
-          <div className="absolute right-2 bottom-2 font-black font-display text-4xl text-slate-800/20 group-hover:text-slate-800/30 transition-colors select-none">
-            BYR
-          </div>
-          <p className="text-[10px] font-mono tracking-widest uppercase text-slate-500 font-bold">ACTIVE PLATFORM BUYERS</p>
-          <p className="text-3xl font-display font-black text-white mt-1">9,842</p>
-          <span className="text-[10px] text-neon-cyan font-mono flex items-center gap-0.5 mt-1.5 font-bold">
-            ⚡ 2,410 online now
-          </span>
-        </div>
-
-        {/* Stat 3 */}
-        <div className="bg-slate-900/40 border border-slate-800/80 p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition-colors">
-          <div className="absolute right-2 bottom-2 font-black font-display text-4xl text-slate-800/20 group-hover:text-slate-800/30 transition-colors select-none">
-            COIN
-          </div>
-          <p className="text-[10px] font-mono tracking-widest uppercase text-slate-500 font-bold">eFC COINS TRADED</p>
-          <p className="text-3xl font-display font-black text-amber-400 mt-1">84.2M</p>
-          <span className="text-[10px] text-amber-400 font-mono flex items-center gap-0.5 mt-1.5 font-bold">
-            ⚡ 340,000 avg deal
-          </span>
-        </div>
-
-        {/* Stat 4 */}
-        <div className="bg-slate-900/40 border border-slate-800/80 p-4 rounded-2xl relative overflow-hidden group hover:border-slate-700 transition-colors">
-          <div className="absolute right-2 bottom-2 font-black font-display text-4xl text-slate-800/20 group-hover:text-slate-800/30 transition-colors select-none">
-            ESC
-          </div>
-          <p className="text-[10px] font-mono tracking-widest uppercase text-slate-500 font-bold">SECURED VOLUMES</p>
-          <p className="text-3xl font-display font-black text-white mt-1">$428K</p>
-          <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-0.5 mt-1.5 font-bold">
-            ✓ 100% Escrow Delivery
-          </span>
-        </div>
-      </div>
 
       {/* 3. Trending Marketplace Activity Feed */}
       <div className="bg-slate-950 border border-slate-800/80 rounded-2xl p-5">
@@ -150,9 +99,9 @@ export default function MarketTracker() {
             <div className="w-10 h-10 rounded-full bg-blue-500/10 text-neon-cyan flex items-center justify-center text-xl font-bold">
               ✓
             </div>
-            <h4 className="text-sm font-display font-bold text-white uppercase">VETTED eFOOTBALL PORTAL</h4>
-            <p className="text-xs text-slate-400 leading-relaxed font-medium">
-              Every seller account listed undergoes verified profile checking to confirm total GP, Coin quantities, and active Booster Player levels. Safe and transparent.
+            <h4 className="text-sm font-display font-bold text-white uppercase">VETTED VISUAL PROOF</h4>
+            <p className="text-xs text-slate-400 leading-relaxed font-semibold">
+              Every item listed undergoes systematic screenshot checking to confirm total GP, Coin quantities, and active Booster levels visually as depicted. Safe and transparent.
             </p>
           </div>
 
@@ -181,7 +130,7 @@ export default function MarketTracker() {
 
         {/* Crypto Logos and Badge Tickers */}
         <div className="pt-4 border-t border-slate-900 flex flex-wrap justify-center items-center gap-6 text-[11px] font-mono text-slate-500 uppercase tracking-widest font-bold">
-          <span>🛡️ Verified eFootball Partner</span>
+          <span>🛡️ Escrow Trade System</span>
           <span>•</span>
           <span>💳 Escrow Assured</span>
           <span>•</span>

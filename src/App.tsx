@@ -32,9 +32,11 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as eFootballSquad[];
-        // Force reset cache if outdated/fake titles are present
-        const hasLegacy = parsed.some(s => s.title && (s.title.includes('OUTLAW') || s.title.includes('LEGACY MASTERS') || s.title.includes('MAJESTIC') || s.title.includes('WARRIOR')));
-        if (hasLegacy) {
+        // Force reset cache if outdated/fake titles are present, count is mismatching, or price exceeds $25
+        const hasLegacy = parsed.length !== 4 || 
+                          parsed.some(s => s.price > 25) ||
+                          parsed.some(s => s.title && (s.title.includes('OUTLAW') || s.title.includes('VENOM') || s.title.includes('SQUAD')));
+        if (hasLegacy || parsed.some(s => s.id.startsWith('squad-custom'))) {
           localStorage.setItem('vorza_squads_catalog', JSON.stringify(INITIAL_SQUADS));
           return INITIAL_SQUADS;
         }
@@ -62,8 +64,8 @@ export default function App() {
   // Search, filter, and sort states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlatform, setSelectedPlatform] = useState<PlatformType | 'ALL'>('ALL');
-  const [selectedDivision, setSelectedDivision] = useState<string>('ALL');
-  const [maxPrice, setMaxPrice] = useState<string>('500');
+  const [selectedStrength, setSelectedStrength] = useState<string>('ALL');
+  const [maxPrice, setMaxPrice] = useState<string>('25');
   const [selectedPlaystyle, setSelectedPlaystyle] = useState<PlaystyleType | 'ALL'>('ALL');
   const [sortBy, setSortBy] = useState<'RATING' | 'STRENGTH' | 'PRICE_ASC' | 'PRICE_DESC' | 'COINS'>('STRENGTH');
   const [viewOnlyWishlist, setViewOnlyWishlist] = useState(false);
@@ -120,12 +122,12 @@ export default function App() {
                           squad.players.some(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
                           squad.playstyle.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesPlatform = selectedPlatform === 'ALL' || squad.platform === selectedPlatform;
-    const matchesDivision = selectedDivision === 'ALL' || String(squad.divisionRank) === selectedDivision;
+    const matchesStrength = selectedStrength === 'ALL' || squad.teamStrength >= Number(selectedStrength);
     const matchesPrice = squad.price <= Number(maxPrice);
     const matchesPlaystyle = selectedPlaystyle === 'ALL' || squad.playstyle === selectedPlaystyle;
     const matchesWishlist = !viewOnlyWishlist || wishlist.includes(squad.id);
 
-    return matchesSearch && matchesPlatform && matchesDivision && matchesPrice && matchesPlaystyle && matchesWishlist;
+    return matchesSearch && matchesPlatform && matchesStrength && matchesPrice && matchesPlaystyle && matchesWishlist;
   });
 
   // Sorting calculation
@@ -355,8 +357,8 @@ export default function App() {
                 <button
                   onClick={() => {
                     setSelectedPlatform('ALL');
-                    setSelectedDivision('ALL');
-                    setMaxPrice('500');
+                    setSelectedStrength('ALL');
+                    setMaxPrice('25');
                     setSelectedPlaystyle('ALL');
                     setSearchQuery('');
                   }}
@@ -401,21 +403,26 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Division Level Range */}
+              {/* Team Strength Segment */}
               <div className="space-y-2">
-                <label className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-widest font-semibold">Division Rank</label>
+                <label className="text-[10px] uppercase font-bold text-slate-500 font-mono tracking-widest font-semibold">Team Strength</label>
                 <div className="grid grid-cols-2 gap-1.5 text-xs font-mono">
-                  {['ALL', '1', '2', '3'].map((div) => (
+                  {[
+                    { val: 'ALL', label: 'All Strengths' },
+                    { val: '3000', label: 'strength > 3,000' },
+                    { val: '3100', label: 'strength > 3,100' },
+                    { val: '3200', label: 'strength > 3,200' }
+                  ].map((item) => (
                     <button
-                      key={div}
-                      onClick={() => setSelectedDivision(div)}
+                      key={item.val}
+                      onClick={() => setSelectedStrength(item.val)}
                       className={`py-1.5 px-2 rounded-lg text-center transition-colors border ${
-                        selectedDivision === div
+                        selectedStrength === item.val
                           ? 'bg-emerald-600 border-emerald-500 text-white font-bold'
                           : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
                       }`}
                     >
-                      {div === 'ALL' ? 'All tiers' : `Div ${div}`}
+                      {item.label}
                     </button>
                   ))}
                 </div>
@@ -445,16 +452,16 @@ export default function App() {
                 </div>
                 <input
                   type="range"
-                  min="50"
-                  max="500"
-                  step="10"
+                  min="10"
+                  max="25"
+                  step="1"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
                   className="w-full accent-blue-500"
                 />
                 <div className="flex justify-between text-[9px] text-slate-600 font-mono">
-                  <span>$50</span>
-                  <span>$500</span>
+                  <span>$10</span>
+                  <span>$25</span>
                 </div>
               </div>
 
@@ -507,8 +514,8 @@ export default function App() {
                   <button
                     onClick={() => {
                       setSelectedPlatform('ALL');
-                      setSelectedDivision('ALL');
-                      setMaxPrice('500');
+                      setSelectedStrength('ALL');
+                      setMaxPrice('25');
                       setViewOnlyWishlist(false);
                       setSearchQuery('');
                     }}
@@ -572,31 +579,12 @@ export default function App() {
                     {selectedSquad.description}
                   </p>
                   
-                  {/* Real stats checklist */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2 font-mono text-center">
-                    <div className="p-2 bg-slate-950/50 rounded-lg border border-slate-850">
-                      <span className="block text-[9px] text-slate-500 uppercase leading-none">Coins count</span>
-                      <span className="text-sm font-bold text-amber-500 mt-1 block">{selectedSquad.coinAmount.toLocaleString()} eFC</span>
-                    </div>
-
-                    <div className="p-2 bg-slate-950/50 rounded-lg border border-slate-850">
-                      <span className="block text-[9px] text-slate-500 uppercase leading-none">GP reserve</span>
-                      <span className="text-sm font-bold text-slate-200 mt-1 block">
-                        {selectedSquad.gpAmount >= 1000000 
-                          ? `${(selectedSquad.gpAmount / 1000000).toFixed(1)}M` 
-                          : selectedSquad.gpAmount.toLocaleString()}
-                      </span>
-                    </div>
-
-                    <div className="p-2 bg-slate-950/50 rounded-lg border border-slate-850">
-                      <span className="block text-[9px] text-slate-500 uppercase leading-none">Playstyle theme</span>
-                      <span className="text-xs font-bold text-white mt-1.5 block truncate">{selectedSquad.playstyle}</span>
-                    </div>
-
-                    <div className="p-2 bg-slate-950/50 rounded-lg border border-slate-850">
-                      <span className="block text-[9px] text-slate-500 uppercase leading-none">Console system</span>
-                      <span className="text-sm font-bold text-neon-cyan mt-1 block">{selectedSquad.platform}</span>
-                    </div>
+                  {/* Integrity Verification Card */}
+                  <div className="p-4 bg-slate-950/70 border border-slate-850 rounded-xl space-y-2 font-mono text-xs">
+                    <span className="text-[10px] text-emerald-400 font-bold uppercase block tracking-wider">✓ VISUAL PROOF ASSURED</span>
+                    <p className="text-slate-400 leading-relaxed text-[11px] font-sans">
+                      All players list, squad formation, eFC coins count, GP ratings, and boosted epic metrics are fully present in the high-res screenshot shown above. No mock database parameters are state-larped here, protecting you against unvetted claims.
+                    </p>
                   </div>
                 </div>
 
@@ -708,11 +696,8 @@ export default function App() {
                     <div>
                       <div className="flex items-center gap-1">
                         <h4 className="font-semibold text-white">{selectedSquad.seller.name}</h4>
-                        {selectedSquad.seller.verified && (
-                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                        )}
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-0.5">VORZA Certified Escrow Seller</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5">VORZA Escrow Agent</p>
                     </div>
                   </div>
 

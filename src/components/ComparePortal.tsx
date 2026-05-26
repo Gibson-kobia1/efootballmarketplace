@@ -1,6 +1,6 @@
 import React from 'react';
 import { eFootballSquad } from '../types';
-import { ShieldCheck, Award, TrendingUp, GitCompare, Coins, Flame, Laptop, X } from 'lucide-react';
+import { ShieldCheck, Laptop, GitCompare, Eye, X } from 'lucide-react';
 
 interface ComparePortalProps {
   squads: eFootballSquad[];
@@ -28,7 +28,7 @@ export default function ComparePortal({
           VORZA Compare Portal
         </h3>
         <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-          Add up to 3 eFootball accounts from the marketplace listings to perform a side-by-side statistical audit.
+          Add up to 3 eFootball accounts from the marketplace listings to perform a side-by-side verification link comparison.
         </p>
       </div>
     );
@@ -41,11 +41,11 @@ export default function ComparePortal({
           <div className="flex items-center gap-2">
             <GitCompare className="w-5 h-5 text-amber-500" />
             <h2 className="text-xl font-display font-medium text-white uppercase tracking-wider">
-              VORZA Account Auditor
+              VORZA Verification Comparator
             </h2>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
-            Compare epic balances, squad attributes, and value scores side-by-side.
+            Compare active system platforms, secure status indicators, and asset screenshots.
           </p>
         </div>
         <button
@@ -75,84 +75,48 @@ export default function ComparePortal({
             <div>
               <div className="mb-3">
                 <span className="text-[9px] uppercase font-bold text-amber-500 font-mono tracking-wider">
-                  {squad.rarityTier} Pack
+                  Mobile Listing
                 </span>
-                <h3 className="text-md font-display font-bold text-white line-clamp-1 mt-0.5">
+                <h3 className="text-sm font-display font-bold text-white line-clamp-1 mt-0.5">
                   {squad.title}
                 </h3>
                 <div className="flex gap-2 items-center text-[10px] text-slate-400 mt-1">
-                  <span className="bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800 text-slate-300 font-mono">
-                    {squad.platform}
+                  <span className="bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800 text-slate-300 font-mono flex items-center gap-1">
+                    <Laptop className="w-3 h-3 text-slate-500" /> {squad.platform}
                   </span>
-                  <span>Div {squad.divisionRank}</span>
-                  <span>•</span>
-                  <span>{squad.formation}</span>
+                  <span>Screenshot Proof Active</span>
                 </div>
               </div>
 
-              {/* Statistical Value score indicators */}
-              <div className="space-y-3 py-3 border-y border-slate-800/80 my-3 font-mono text-[11px]">
-                
-                {/* Team Strength comparing */}
-                <div>
-                  <div className="flex justify-between mb-0.5 font-semibold text-slate-400">
-                    <span>TEAM STRENGTH</span>
-                    <span className="text-white">{squad.teamStrength}</span>
-                  </div>
-                  <div className="w-full bg-slate-950 h-1.5 rounded-full">
-                    <div
-                      className="h-full bg-emerald-500 rounded-full"
-                      style={{ width: `${Math.min(100, ((squad.teamStrength - 2400) / 900) * 100)}%` }}
-                    />
-                  </div>
+              {/* Tiny Preview image box */}
+              {squad.squadPreviewUrl && (
+                <div className="my-3 rounded-lg overflow-hidden border border-slate-800 text-center aspect-[16/10] bg-slate-950">
+                  <img 
+                    src={squad.squadPreviewUrl} 
+                    alt="Compare preview" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
+              )}
 
-                {/* Rating score comparing */}
-                <div>
-                  <div className="flex justify-between mb-0.5 font-semibold text-slate-400">
-                    <span>VORZA RATING</span>
-                    <span className="text-neon-cyan font-bold">{squad.squadRating}/100</span>
-                  </div>
-                  <div className="w-full bg-slate-950 h-1.5 rounded-full">
-                    <div
-                      className="h-full bg-neon-cyan rounded-full"
-                      style={{ width: `${squad.squadRating}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Coins amount list */}
+              {/* Statistical Value indicators */}
+              <div className="space-y-2 py-2.5 border-y border-slate-800/80 my-3 font-mono text-[11px]">
                 <div className="flex justify-between py-1 bg-slate-950/40 px-2 rounded">
-                  <span className="text-slate-500 flex items-center gap-1">
-                    <Coins className="w-3 h-3 text-amber-400" /> COINS
-                  </span>
-                  <span className="text-amber-400 font-bold">{squad.coinAmount.toLocaleString()} eFC</span>
+                  <span className="text-slate-500">PLATFORM STATUS</span>
+                  <span className="text-slate-300 font-bold">{squad.platform} Link Verified</span>
                 </div>
 
-                {/* GP amount list */}
                 <div className="flex justify-between py-1 bg-slate-950/40 px-2 rounded">
-                  <span className="text-slate-500 flex items-center gap-1">
-                    <Award className="w-3 h-3 text-slate-400" /> GP AMOUNT
-                  </span>
-                  <span className="text-slate-200 font-bold">
-                    {squad.gpAmount >= 1000000 
-                      ? `${(squad.gpAmount / 1000000).toFixed(1)}M` 
-                      : squad.gpAmount.toLocaleString()}
+                  <span className="text-slate-500">TRUST GUARANTEE</span>
+                  <span className="text-emerald-450 text-emerald-450 font-bold flex items-center gap-0.5 text-emerald-400">
+                    <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-400" /> Escrow Safe
                   </span>
                 </div>
 
-                {/* Epic count */}
                 <div className="flex justify-between py-1 bg-slate-950/40 px-2 rounded">
-                  <span className="text-slate-500 flex items-center gap-1">
-                    <GitCompare className="w-3 h-3 text-purple-400" /> EPIC BOOSTERS
-                  </span>
-                  <span className="text-purple-400 font-bold">{squad.epicCardCount} Cards</span>
-                </div>
-
-                {/* Playstyle */}
-                <div className="flex justify-between py-1 bg-slate-950/40 px-2 rounded">
-                  <span className="text-slate-500">PLAYSTYLE</span>
-                  <span className="text-slate-300">{squad.playstyle}</span>
+                  <span className="text-slate-500">DELIVERY SPEED</span>
+                  <span className="text-cyan-400">&lt; 10 Minutes</span>
                 </div>
               </div>
             </div>
@@ -160,19 +124,19 @@ export default function ComparePortal({
             {/* Bottom Section */}
             <div>
               <div className="my-3 flex justify-between items-center">
-                <span className="text-slate-500 text-xs text-left">ESTIMATED ASSET PRICE</span>
+                <span className="text-slate-500 text-xs text-left">ASKING PRICE</span>
                 <span className="text-xl font-display font-black text-white">${squad.price}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2 mt-3 text-xs font-mono">
                 <button
                   onClick={() => onSelectSquadToInspect(squad)}
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-lg text-[10px] uppercase text-center focus:outline-none"
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-lg text-[10px] uppercase text-center focus:outline-none flex items-center justify-center gap-1"
                 >
-                  Tactics Board
+                  <Eye className="w-3.5 h-3.5" /> Verify Image
                 </button>
-                <div className="text-[10px] text-center border border-slate-800 text-slate-400 py-2 rounded-lg bg-slate-950/50 flex items-center justify-center gap-0.5">
-                  🛡️ Secure Trade
+                <div className="text-[10px] text-center border border-slate-800 text-slate-400 py-2 rounded-lg bg-slate-950/50 flex items-center justify-center gap-0.5 font-bold">
+                  🛡️ Secure trade
                 </div>
               </div>
             </div>
@@ -185,7 +149,7 @@ export default function ComparePortal({
             <GitCompare className="w-8 h-8 text-slate-800 mb-2" />
             <span className="text-xs font-mono font-medium">Spot empty ({compareSquads.length}/3)</span>
             <p className="text-[10px] text-slate-400 px-4 mt-1">
-              Add another high-tier squad card to inspect parallel values instantly.
+              Add another high-tier squad to inspect parallel visual proofs instantly.
             </p>
           </div>
         )}

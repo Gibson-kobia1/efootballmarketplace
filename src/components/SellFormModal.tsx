@@ -10,7 +10,7 @@ interface SellFormModalProps {
 export default function SellFormModal({ onClose, onAddSquad }: SellFormModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [title, setTitle] = useState('');
-  const [price, setPrice] = useState('120');
+  const [price, setPrice] = useState('22');
   const [platform, setPlatform] = useState<PlatformType>('PS5');
   const [divisionRank, setDivisionRank] = useState('1');
   const [coinAmount, setCoinAmount] = useState('3500');
@@ -102,14 +102,14 @@ export default function SellFormModal({ onClose, onAddSquad }: SellFormModalProp
       playstyle,
       description: description || 'No description supplied. Premium verified verified asset of eFootball.',
       hasMatchPass,
-      verifiedBadge: true,
+      verifiedBadge: false,
       glowColor: '#3b82f6', // Premium elite blue color
       rarityTier: 'ELITE',
       seller: {
         id: 'user-id-listed',
         name: 'You (PrimeSeller)',
         rating: 5.0,
-        verified: true,
+        verified: false,
         avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&q=80',
         totalSales: 1,
         responseTime: 'Instant'
@@ -161,10 +161,10 @@ export default function SellFormModal({ onClose, onAddSquad }: SellFormModalProp
                 </div>
                 <div>
                   <h3 className="text-xl font-display font-black text-white uppercase tracking-widest">
-                    VERIFICATION GRANTED
+                    LISTING DRAFT VERIFIED
                   </h3>
                   <p className="text-xs text-slate-400 mt-2">
-                    Profile integrity validated with high safety metrics. Certified seller tag has been linked.
+                    Draft properties validated. You can now post this listing to the marketplace board.
                   </p>
                 </div>
                 <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-left text-xs space-y-2 font-mono">
@@ -248,12 +248,21 @@ export default function SellFormModal({ onClose, onAddSquad }: SellFormModalProp
 
                   {/* Pricing Input */}
                   <div>
-                    <label className="block text-xs uppercase text-slate-400 font-bold mb-1.5 font-mono">Asking Price ($ USD)</label>
+                    <label className="block text-xs uppercase text-slate-400 font-bold mb-1.5 font-mono">Asking Price ($ USD - Max $25)</label>
                     <input
                       type="number"
-                      placeholder="Price"
+                      placeholder="e.g. 22"
+                      min="1"
+                      max="25"
                       value={price}
-                      onChange={(e) => setPrice(e.target.value)}
+                      onChange={(e) => {
+                        const val = Number(e.target.value);
+                        if (val > 25) {
+                          setPrice('25');
+                        } else {
+                          setPrice(e.target.value);
+                        }
+                      }}
                       required
                       className="w-full bg-slate-900 border border-slate-800 text-slate-100 rounded-xl px-4 py-2.5 text-sm focus:border-neon-cyan focus:outline-none"
                     />
