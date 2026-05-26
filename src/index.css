@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom premium styles */
+@layer utilities {
+  .text-neon-cyan {
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+  }
+  .text-neon-green {
+    color: #00ff87;
+    text-shadow: 0 0 10px rgba(0, 255, 135, 0.4);
+  }
+  .text-gold-legend {
+    color: #fbbf24;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+  }
+  
+  .bg-radial-stadium {
+    background: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.15) 0%, rgba(2, 4, 8, 0) 70%), 
+                radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.05) 0%, rgba(2, 4, 8, 0) 50%);
+  }
+
+  .glow-card-amber {
+    box-shadow: 0 0 25px -5px rgba(251, 191, 36, 0.25);
+    border-color: rgba(251, 191, 36, 0.4);
+  }
+  .glow-card-cyan {
+    box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
+    border-color: rgba(6, 182, 212, 0.4);
+  }
+  .glow-card-emerald {
+    box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+  .glow-card-purple {
+    box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.25);
+    border-color: rgba(168, 85, 247, 0.4);
+  }
+  .glow-card-red {
+    box-shadow: 0 0 25px -5px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+}
+
+/* Smooth custom animations and card flips */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+.card-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 30%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.13) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  transition: all 0.6s ease;
+}
+.card-shine:hover::after {
+  left: 130%;
+}
+
+/* Holographic eFootball card aesthetic */
+.shimmer-bg {
+  background: linear-gradient(135deg, rgba(13, 17, 28, 0.95) 0%, rgba(2, 4, 8, 0.98) 100%);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #020408;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Pitch tactical layout */
+.football-pitch {
+  background-color: #0c1511;
+  background-image: 
+    radial-gradient(#152d21 1px, transparent 1px),
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 20px 20px, 40px 40px, 40px 40px;
+}

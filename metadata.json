@@ -1,0 +1,6 @@
+{
+  "name": "VORZA",
+  "description": "Futuristic elite eFootball marketplace and football gaming ecosystem with collectible squad cards, pitch formations, and interactive live activity panels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
