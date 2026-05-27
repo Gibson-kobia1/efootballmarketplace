@@ -53,6 +53,7 @@ export interface eFootballSquad {
   glowColor: string; // tailwind class hex glow color
   description: string;
   squadPreviewUrl?: string;
+  squadScreenshots?: string[];
   players: Player[];
   sold?: boolean;
   featured?: boolean;

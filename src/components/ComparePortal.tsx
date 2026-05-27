@@ -110,7 +110,7 @@ export default function ComparePortal({
                 <div className="flex justify-between py-1 bg-slate-950/40 px-2 rounded">
                   <span className="text-slate-500">TRUST GUARANTEE</span>
                   <span className="text-emerald-450 text-emerald-450 font-bold flex items-center gap-0.5 text-emerald-400">
-                    <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-400" /> Escrow Safe
+                    <ShieldCheck className="w-3.5 h-3.5 inline text-emerald-400" /> Certified Safe
                   </span>
                 </div>
 

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { eFootballSquad } from '../types';
-import { ShieldCheck, ArrowRight, Smartphone } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Smartphone, ChevronLeft, ChevronRight, Flame } from 'lucide-react';
 
 interface AccountCardProps {
   key?: string | number;
@@ -20,6 +20,31 @@ export default function AccountCard({
   isWishlisted,
   onWishlistToggle,
 }: AccountCardProps) {
+  const [currentImgIndex, setCurrentImgIndex] = useState<number>(0);
+  const [showLightbox, setShowLightbox] = useState<boolean>(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number>(0);
+
+  const screenshots = squad.squadScreenshots || (squad.squadPreviewUrl ? [squad.squadPreviewUrl] : []);
+
+  // Micro-carousel auto rotation logic inside each individual AccountCard
+  useEffect(() => {
+    if (screenshots.length <= 1 || showLightbox) return;
+    const interval = setInterval(() => {
+      setCurrentImgIndex((prev) => (prev + 1) % screenshots.length);
+    }, 4000); // Transitions nicely every 4 seconds
+    return () => clearInterval(interval);
+  }, [screenshots.length, showLightbox]);
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImgIndex((prev) => (prev + 1) % screenshots.length);
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImgIndex((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+  };
+
   // Glow effect mapping
   let glowOuterClass = 'glow-card-purple border-purple-500/30';
   if (squad.id === 'squad2') glowOuterClass = 'glow-card-red border-red-500/30';
@@ -58,35 +83,95 @@ export default function AccountCard({
           </h3>
         </div>
 
-        {/* Large, high-resolution visual proof screenshot. Visible Well! */}
-        {squad.squadPreviewUrl && (
+        {/* Large, auto-scrolling multi-screenshot preview container */}
+        {screenshots.length > 0 && (
           <div 
-            onClick={() => onSelect(squad)}
+            onClick={() => {
+              setLightboxIndex(currentImgIndex);
+              setShowLightbox(true);
+            }}
             className="relative w-full aspect-[16/10] mb-4.5 rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950/90 cursor-pointer group/screenshot"
           >
-            <img 
-              src={squad.squadPreviewUrl} 
-              alt="Account Screenshot Verification Proof" 
-              className="w-full h-full object-cover group-hover/screenshot:scale-[1.03] transition-all duration-300"
-              referrerPolicy="no-referrer"
-            />
-            {/* View Zoom Overlay Hint */}
-            <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/screenshot:opacity-100 transition-opacity flex items-center justify-center">
-              <span className="text-xs bg-black/80 text-neon-cyan font-mono border border-neon-cyan/20 px-3.5 py-1.5 rounded-xl flex items-center gap-1 uppercase tracking-wider font-bold">
-                Inspect High-Res Proof
+            {/* Sliding Container wrapper */}
+            <div 
+              className="w-full h-full flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentImgIndex * 100}%)` }}
+            >
+              {screenshots.map((imgUrl, index) => (
+                <div key={index} className="w-full h-full shrink-0 relative flex items-center justify-center bg-slate-950">
+                  <img 
+                    src={imgUrl} 
+                    alt={`Screenshot proof ${index + 1}`} 
+                    className="w-full h-full object-contain transition-all"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Tap to view full display indicator overlay */}
+            <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/screenshot:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
+              <span className="text-[11px] bg-black/95 text-neon-cyan font-mono border border-neon-cyan/25 px-3 py-1.5 rounded-xl flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-lg">
+                🔍 Click to View Fullscreen
               </span>
             </div>
+
+            {/* Custom Manual Overlays (Prev/Next buttons) */}
+            {screenshots.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-slate-950/80 hover:bg-slate-950 border border-slate-850/60 text-slate-300 hover:text-white flex items-center justify-center transition-opacity opacity-0 group-hover/screenshot:opacity-100 z-20"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg bg-slate-950/80 hover:bg-slate-950 border border-slate-850/60 text-slate-300 hover:text-white flex items-center justify-center transition-opacity opacity-0 group-hover/screenshot:opacity-100 z-20"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+
+                {/* Horizontal Progress dots overlay */}
+                <div className="absolute bottom-2 inset-x-0 flex justify-center gap-1.5 z-20">
+                  {screenshots.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentImgIndex(index);
+                      }}
+                      className={`h-1 rounded-full transition-all ${
+                        index === currentImgIndex 
+                          ? 'w-4 bg-neon-cyan' 
+                          : 'w-1.5 bg-slate-650 opacity-60 hover:opacity-100'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+
           </div>
         )}
 
-        {/* Clean, authentic details block (Only verified escrow guarantees) */}
+        {/* Clean, authentic details block (Only verified guarantees) */}
         <div className="space-y-2 mb-5 p-3 rounded-xl bg-slate-900/50 border border-slate-800/40 text-xs font-mono">
           <div className="flex justify-between items-center text-slate-400">
             <span>Proof of ownership:</span>
-            <span className="text-white font-bold text-[11px]">Screenshot Attached</span>
+            <span className="text-white font-bold text-[11px]">
+              {screenshots.length > 1 
+                ? `${screenshots.length} Verified Screens` 
+                : 'Verified Screen'
+              }
+            </span>
           </div>
           <div className="flex justify-between items-center text-slate-400">
-            <span>Escrow guarantee:</span>
+            <span>Transfer safety:</span>
             <span className="text-emerald-400 font-bold text-[11px] flex items-center gap-0.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 inline" />
               100% Secure
@@ -96,35 +181,96 @@ export default function AccountCard({
 
         {/* Bottom Pricing & Navigation Actions row */}
         <div className="mt-auto pt-3.5 border-t border-slate-800/60 flex items-center justify-between">
-          <div className="text-left">
+          <div className="text-left font-sans">
             <span className="block text-[9px] text-slate-500 font-mono uppercase tracking-wider">ASKING PRICE</span>
             <span className="text-2xl font-display font-black text-white tracking-tight">
               ${squad.price}
             </span>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             <button
               onClick={() => onSelect(squad)}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-xl text-[11px] font-mono transition-all flex items-center gap-1 active:scale-95 shadow-md shadow-blue-900/10"
+              className="bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center gap-1.5 active:scale-95 shadow-md shadow-blue-950/20 uppercase tracking-wider"
             >
-              Verify Image <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => onWishlistToggle(squad.id)}
-              className={`py-2 px-3 rounded-xl border text-sm transition-all text-center flex items-center justify-center ${
-                isWishlisted 
-                  ? 'bg-red-500/10 text-red-500 border-red-500/30' 
-                  : 'bg-transparent text-slate-500 border-slate-800 hover:border-slate-650 hover:text-slate-300'
-              }`}
-              title="Add to Wishlist"
-            >
-              ❤
+              Buy Out <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
       </div>
+
+      {/* Fullscreen Image Lightbox Modal */}
+      {showLightbox && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 animate-fade-in"
+          onClick={() => setShowLightbox(false)}
+        >
+          <div className="absolute top-4 right-4 z-[110]">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowLightbox(false);
+              }}
+              className="text-white bg-slate-900/80 border border-slate-800 hover:bg-slate-850 px-4 py-2 rounded-xl transition-all cursor-pointer font-mono text-xs uppercase font-bold"
+            >
+              ✕ Close Detail
+            </button>
+          </div>
+
+          {/* Main image container */}
+          <div 
+            className="relative max-w-5xl max-h-[80vh] w-full h-full flex items-center justify-center select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={screenshots[lightboxIndex]}
+              alt={`Full proof screenshot ${lightboxIndex + 1}`}
+              className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl border border-slate-800/60"
+              referrerPolicy="no-referrer"
+            />
+
+            {/* Carousel controls inside lightbox */}
+            {screenshots.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+                  }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/90 hover:bg-slate-850 border border-slate-800 text-white flex items-center justify-center transition-all hover:scale-105 shadow-lg"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex((prev) => (prev + 1) % screenshots.length);
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/90 hover:bg-slate-850 border border-slate-800 text-white flex items-center justify-center transition-all hover:scale-105 shadow-lg"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Slide metadata indicators below image */}
+          <div 
+            className="mt-6 px-5 py-2.5 bg-slate-950/80 border border-slate-850 rounded-full font-mono text-xs text-white shadow-xl flex items-center gap-3.5 select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="text-emerald-400 font-bold flex items-center gap-1">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" /> VETTED SCREENSHOT PROOF
+            </span>
+            <span className="text-slate-700">|</span>
+            <span className="text-slate-300">
+              Frame {lightboxIndex + 1} of {screenshots.length}
+            </span>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

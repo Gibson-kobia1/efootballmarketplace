@@ -79,66 +79,7 @@ export default function MarketTracker() {
         </div>
       </div>
 
-      {/* 5. Trust, Escrow & Secured Payment Section */}
-      <div className="bg-radial-stadium border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-[10px] font-mono tracking-widest bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full px-3 py-1 font-bold">
-            AUTHENTIFIED ESCROW GUARANTEE
-          </span>
-          <h3 className="text-2xl font-display font-black text-white uppercase tracking-wider leading-tight">
-            WORLD CLASS eFOOTBALL ESCROW SIGNING
-          </h3>
-          <p className="text-xs text-slate-400 font-medium">
-            No risks. VORZA manages account validations and ensures immediate transfer of the PlayStation, Xbox, Steam or eFootball Konami ID.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          {/* Security Factor 1 */}
-          <div className="bg-slate-950/60 border border-slate-850 p-5 rounded-2xl text-left space-y-3">
-            <div className="w-10 h-10 rounded-full bg-blue-500/10 text-neon-cyan flex items-center justify-center text-xl font-bold">
-              ✓
-            </div>
-            <h4 className="text-sm font-display font-bold text-white uppercase">VETTED VISUAL PROOF</h4>
-            <p className="text-xs text-slate-400 leading-relaxed font-semibold">
-              Every item listed undergoes systematic screenshot checking to confirm total GP, Coin quantities, and active Booster levels visually as depicted. Safe and transparent.
-            </p>
-          </div>
-
-          {/* Security Factor 2 */}
-          <div className="bg-slate-950/60 border border-slate-850 p-5 rounded-2xl text-left space-y-3">
-            <div className="w-10 h-10 rounded-full bg-purple-500/10 text-fuchsia-400 flex items-center justify-center text-xl font-bold">
-              🪙
-            </div>
-            <h4 className="text-sm font-display font-bold text-white uppercase">CRYPTO CRYPTOGRAPHIC ESCROW</h4>
-            <p className="text-xs text-slate-400 leading-relaxed font-medium">
-              We accept instantaneous stablecoins (USDT, USDC) and Ethereum alongside credit/debit card points. Funds remain safe in escrow until verification is sealed.
-            </p>
-          </div>
-
-          {/* Security Factor 3 */}
-          <div className="bg-slate-950/60 border border-slate-850 p-5 rounded-2xl text-left space-y-3">
-            <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-neon-green flex items-center justify-center text-xl font-bold">
-              🛡️
-            </div>
-            <h4 className="text-sm font-display font-bold text-white uppercase">VORZA ESCROW ASSURANCE</h4>
-            <p className="text-xs text-slate-400 leading-relaxed font-medium">
-              Our 24/7 dedicated game moderators check ownership transfers directly within 10 minutes. 100% moneyback scam protection guaranteed.
-            </p>
-          </div>
-        </div>
-
-        {/* Crypto Logos and Badge Tickers */}
-        <div className="pt-4 border-t border-slate-900 flex flex-wrap justify-center items-center gap-6 text-[11px] font-mono text-slate-500 uppercase tracking-widest font-bold">
-          <span>🛡️ Escrow Trade System</span>
-          <span>•</span>
-          <span>💳 Escrow Assured</span>
-          <span>•</span>
-          <span>₿ USDT / BTC Support</span>
-          <span>•</span>
-          <span>⚡ Instant delivery</span>
-        </div>
-      </div>
 
     </div>
   );
