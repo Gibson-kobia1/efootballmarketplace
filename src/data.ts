@@ -186,6 +186,42 @@ export const INITIAL_SQUADS: eFootballSquad[] = [
     },
     players: [],
     featured: true
+  },
+  {
+    id: 'squad6',
+    title: 'EFOOTBALL MOBILE ACCOUNT #180107',
+    price: 85,
+    coinAmount: 2200,
+    gpAmount: 6400000,
+    pointsAmount: 25000,
+    squadRating: 99,
+    teamStrength: 3230,
+    divisionRank: 1,
+    epicCardCount: 17,
+    legendCardCount: 19,
+    platform: 'Mobile',
+    formation: '4-1-2-3',
+    playstyle: 'Quick Counter',
+    description: 'Exclusive premium eFootball Mobile profile listed for sale. Includes top-level player positions, excellent booster reserves, and high-cohesion division rating proof visible below.',
+    squadPreviewUrl: 'https://ik.imagekit.io/0iaahkrcv/107cr7.jpg',
+    squadScreenshots: [
+      'https://ik.imagekit.io/0iaahkrcv/107cr7.jpg'
+    ],
+    hasMatchPass: true,
+    verifiedBadge: true,
+    glowColor: '#a855f7',
+    rarityTier: 'EPIC',
+    seller: {
+      id: 'sell-1',
+      name: 'VORZA_TradeAgent_X',
+      rating: 5.0,
+      verified: true,
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&q=80',
+      totalSales: 482,
+      responseTime: '< 5 Mins'
+    },
+    players: [],
+    featured: true
   }
 ];
 
@@ -203,6 +239,6 @@ export const MOCK_REVIEWS = [
 ];
 
 export const SQUAD_CATEGORIES = [
-  { name: 'All Accounts', count: 5 },
-  { name: 'Verified Screenshot Proofs', count: 5, color: 'from-cyan-500/10 to-transparent border-cyan-500/30' }
+  { name: 'All Accounts', count: 6 },
+  { name: 'Verified Screenshot Proofs', count: 6, color: 'from-cyan-500/10 to-transparent border-cyan-500/30' }
 ];

@@ -4,6 +4,7 @@ import { eFootballSquad, PlatformType, PlaystyleType } from './types';
 import AccountCard from './components/AccountCard';
 import ComparePortal from './components/ComparePortal';
 import MarketTracker from './components/MarketTracker';
+import CheckoutPortal from './components/CheckoutPortal';
 import { 
   Trophy, 
   Coins, 
@@ -56,6 +57,38 @@ export default function App() {
   });
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [selectedSquad, setSelectedSquad] = useState<eFootballSquad | null>(INITIAL_SQUADS[0]);
+  
+  // Navigation / Custom Route simulation State 
+  const [viewMode, setViewMode] = useState<'market' | 'checkout'>(() => {
+    return window.location.hash === '#/checkout' ? 'checkout' : 'market';
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#/checkout') {
+        setViewMode('checkout');
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setViewMode('market');
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateToCheckout = (squad: eFootballSquad) => {
+    setSelectedSquad(squad);
+    window.location.hash = '#/checkout';
+    setViewMode('checkout');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToMarket = () => {
+    window.location.hash = '';
+    setViewMode('market');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   
   // Modal toggle states
   const [showPurchaseSimulation, setShowPurchaseSimulation] = useState(false);
@@ -212,7 +245,9 @@ export default function App() {
         </div>
       </header>
 
-      {/* 1. Cinematic Stadium Hero Section */}
+      {viewMode === 'market' ? (
+        <>
+          {/* 1. Cinematic Stadium Hero Section */}
       <section className="relative overflow-hidden bg-radial-stadium py-12 md:py-20 border-b border-slate-900 px-4">
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_40%,#020408_100%)] pointer-events-none" />
         
@@ -269,11 +304,7 @@ export default function App() {
               <div key={squad.id} className="min-w-[310px] md:min-w-[365px] max-w-[380px] snap-start">
                 <AccountCard
                   squad={squad}
-                  onSelect={(s) => {
-                    setSelectedSquad(s);
-                    const detEl = document.getElementById('inspect-details-section');
-                    if (detEl) detEl.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onSelect={navigateToCheckout}
                   onCompareToggle={handleCompareToggle}
                   isComparing={compareIds.includes(squad.id)}
                   isWishlisted={wishlist.includes(squad.id)}
@@ -450,11 +481,7 @@ export default function App() {
                     <AccountCard
                       key={squad.id}
                       squad={squad}
-                      onSelect={(s) => {
-                        setSelectedSquad(s);
-                        const detEl = document.getElementById('inspect-details-section');
-                        if (detEl) detEl.scrollIntoView({ behavior: 'smooth' });
-                      }}
+                      onSelect={navigateToCheckout}
                       onCompareToggle={handleCompareToggle}
                       isComparing={compareIds.includes(squad.id)}
                       isWishlisted={wishlist.includes(squad.id)}
@@ -492,14 +519,16 @@ export default function App() {
           compareIds={compareIds}
           onRemove={handleCompareToggle}
           onClear={handleClearCompare}
-          onSelectSquadToInspect={(s) => {
-            setSelectedSquad(s);
-            setPurchaseStep(1);
-            setShowPurchaseSimulation(true);
-          }}
+          onSelectSquadToInspect={navigateToCheckout}
         />
 
       </main>
+        </>
+      ) : (
+        <main className="max-w-7xl mx-auto px-4 py-8 relative z-20">
+          <CheckoutPortal selectedSquad={selectedSquad} onBackToMarket={navigateToMarket} />
+        </main>
+      )}
 
       {/* Immersive Crypto-Escrow Purchase & Account Handover Modal */}
       {showPurchaseSimulation && selectedSquad && (
