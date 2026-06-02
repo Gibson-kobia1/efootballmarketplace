@@ -36,9 +36,10 @@ export default function App() {
         const priceMismatch = parsed.some((s, idx) => INITIAL_SQUADS[idx] && s.price !== INITIAL_SQUADS[idx].price);
         const titleMismatch = parsed.some((s, idx) => INITIAL_SQUADS[idx] && s.title !== INITIAL_SQUADS[idx].title);
         const screenshotMismatch = parsed.some((s, idx) => INITIAL_SQUADS[idx] && (s.squadScreenshots?.length !== INITIAL_SQUADS[idx].squadScreenshots?.length));
+        const missingPrime = !parsed.some(s => s.id === 'squad_prime');
         const hasLegacy = parsed.length !== INITIAL_SQUADS.length || 
                           parsed.some(s => s.title && (s.title.includes('OUTLAW') || s.title.includes('VENOM') || s.title.includes('LEGACY')));
-        if (hasLegacy || priceMismatch || titleMismatch || screenshotMismatch || parsed.some(s => s.id.startsWith('squad-custom'))) {
+        if (hasLegacy || priceMismatch || titleMismatch || screenshotMismatch || missingPrime || parsed.some(s => s.id.startsWith('squad-custom'))) {
           localStorage.setItem('vorza_squads_catalog', JSON.stringify(INITIAL_SQUADS));
           return INITIAL_SQUADS;
         }
