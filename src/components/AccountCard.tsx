@@ -49,11 +49,18 @@ export default function AccountCard({
   let glowOuterClass = 'glow-card-purple border-purple-500/30';
   if (squad.id === 'squad2') glowOuterClass = 'glow-card-red border-red-500/30';
   if (squad.id === 'squad3' || squad.id === 'squad4') glowOuterClass = 'glow-card-emerald border-emerald-500/30';
+  if (squad.id === 'squad_prime') glowOuterClass = 'glow-card-amber border-amber-500/50';
+
+  const isPrime = squad.id === 'squad_prime';
 
   return (
     <div
       id={`squad-card-${squad.id}`}
-      className="relative group rounded-2xl p-[1px] bg-gradient-to-b from-slate-800 to-slate-950 overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_35px_-10px_rgba(0,0,0,0.8)]"
+      className={`relative group rounded-2xl overflow-hidden transition-all duration-300 ${
+        isPrime
+          ? 'p-[3.5px] bg-gradient-to-b from-amber-400 via-orange-500 to-yellow-300 shadow-[0_12px_45px_rgba(245,158,11,0.30)] hover:-translate-y-1.5'
+          : 'p-[1px] bg-gradient-to-b from-slate-800 to-slate-950 hover:-translate-y-1.5 hover:shadow-[0_20px_35px_-10px_rgba(0,0,0,0.8)]'
+      }`}
     >
       {/* Glow highlight behind card */}
       <div 
@@ -66,14 +73,19 @@ export default function AccountCard({
       {/* Rarity Glow Border effect */}
       <div className={`absolute inset-0 rounded-2xl border ${glowOuterClass} opacity-40 group-hover:opacity-85 transition-opacity duration-300 pointer-events-none`} />
 
-      <div className="relative rounded-[15px] p-5 flex flex-col h-full bg-[#0d131f]/95 z-10">
+      <div className={`relative rounded-[15px] flex flex-col h-full bg-[#0d131f]/95 z-10 transition-all ${isPrime ? 'p-6 md:p-6.5' : 'p-5'}`}>
         
         {/* Top Header Row with Platform & ID */}
-        <div className="flex justify-between items-center mb-3.5">
+        <div className="flex justify-between items-center mb-3.5 gap-2">
           <span className="text-[10px] uppercase tracking-widest font-mono font-bold px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 flex items-center gap-1">
             <Smartphone className="w-3 h-3 text-neon-cyan" />
             {squad.platform} LINK
           </span>
+          {isPrime && (
+            <span className="text-[9px] uppercase tracking-wider font-mono font-black px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/50 text-amber-400 flex items-center gap-1 shadow-sm">
+              ★ TOP STAR DEAL
+            </span>
+          )}
         </div>
 
         {/* Squad Title */}

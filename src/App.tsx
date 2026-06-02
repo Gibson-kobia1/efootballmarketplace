@@ -98,7 +98,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPlatform, setSelectedPlatform] = useState<PlatformType | 'ALL'>('ALL');
   const [selectedStrength, setSelectedStrength] = useState<string>('ALL');
-  const [maxPrice, setMaxPrice] = useState<string>('120');
+  const [maxPrice, setMaxPrice] = useState<string>('200');
   const [selectedPlaystyle, setSelectedPlaystyle] = useState<PlaystyleType | 'ALL'>('ALL');
   const [sortBy, setSortBy] = useState<'RATING' | 'STRENGTH' | 'PRICE_ASC' | 'PRICE_DESC' | 'COINS'>('STRENGTH');
   const [viewOnlyWishlist, setViewOnlyWishlist] = useState(false);
@@ -457,7 +457,7 @@ export default function App() {
                   <input
                     type="range"
                     min="10"
-                    max="120"
+                    max="200"
                     step="1"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
@@ -465,7 +465,7 @@ export default function App() {
                   />
                   <div className="flex justify-between text-[9px] text-slate-600 font-mono">
                     <span>$10</span>
-                    <span>$120</span>
+                    <span>$200</span>
                   </div>
                 </div>
 
@@ -500,7 +500,7 @@ export default function App() {
                     onClick={() => {
                       setSelectedPlatform('ALL');
                       setSelectedStrength('ALL');
-                      setMaxPrice('80');
+                      setMaxPrice('200');
                       setViewOnlyWishlist(false);
                       setSearchQuery('');
                     }}

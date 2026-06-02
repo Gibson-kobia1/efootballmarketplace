@@ -2,6 +2,43 @@ import { eFootballSquad, LiveActivity } from './types';
 
 export const INITIAL_SQUADS: eFootballSquad[] = [
   {
+    id: 'squad_prime',
+    title: 'EFOOTBALL MOBILE ACCOUNT #180007',
+    price: 140,
+    coinAmount: 5200,
+    gpAmount: 12500000,
+    pointsAmount: 38000,
+    squadRating: 102,
+    teamStrength: 3310,
+    divisionRank: 1,
+    epicCardCount: 28,
+    legendCardCount: 35,
+    platform: 'Mobile',
+    formation: '4-2-2-2',
+    playstyle: 'Quick Counter',
+    description: 'Supreme-tier eFootball Mobile account featuring ultimate iconic player rosters, premium player builds, extensive legend cards, and high division ranking verified on-ledger. Clean secure handover guaranteed.',
+    squadPreviewUrl: 'https://ik.imagekit.io/0iaahkrcv/IMG-20260602-WA0003.jpg',
+    squadScreenshots: [
+      'https://ik.imagekit.io/0iaahkrcv/IMG-20260602-WA0003.jpg',
+      'https://ik.imagekit.io/0iaahkrcv/IMG-20260602-WA0001.jpg'
+    ],
+    hasMatchPass: true,
+    verifiedBadge: true,
+    glowColor: '#fbbf24', // Amber/gold Glow
+    rarityTier: 'ELITE',
+    seller: {
+      id: 'sell-1',
+      name: 'VORZA_TradeAgent_X',
+      rating: 5.0,
+      verified: true,
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&q=80',
+      totalSales: 482,
+      responseTime: '< 5 Mins'
+    },
+    players: [],
+    featured: true
+  },
+  {
     id: 'squad1',
     title: 'EFOOTBALL MOBILE ACCOUNT #180239',
     price: 70,
@@ -239,6 +276,6 @@ export const MOCK_REVIEWS = [
 ];
 
 export const SQUAD_CATEGORIES = [
-  { name: 'All Accounts', count: 6 },
-  { name: 'Verified Screenshot Proofs', count: 6, color: 'from-cyan-500/10 to-transparent border-cyan-500/30' }
+  { name: 'All Accounts', count: 7 },
+  { name: 'Verified Screenshot Proofs', count: 7, color: 'from-cyan-500/10 to-transparent border-cyan-500/30' }
 ];
